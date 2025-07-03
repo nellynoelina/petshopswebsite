@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - PetShop</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div class="login-bg">
+        <div class="login-container">
+            <div id="login-message" class="login-message">
+                Please login to continue to view products. If you don't have an account, <a href="register.html">register here</a>.
+            </div>
+            <h2>Welcome to PetShop</h2>
+            <form action="auth.php" method="POST">
+                <input type="hidden" name="action" value="login">
+                <label for="username">Username or Email:</label>
+                <input type="text" name="username" id="username" required>
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="register.html">Sign up here</a></p>
+        </div>
+    </div>
+    <script>
+    window.onload = function() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('message') === 'login_required') {
+            document.getElementById('login-message').style.display = 'block';
+        }
+    }
+    </script>
+</body>
+</html>
+
