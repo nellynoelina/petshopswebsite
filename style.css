@@ -46,7 +46,7 @@ nav img {
     content: '';
     width: 0%;
     height: 2px;
-    background: #96ca1c;
+
     display: block;
     margin: auto;
     transition: 0.5s;
@@ -285,11 +285,7 @@ p a:hover {
     align-items: center;
     gap: 8px;
     margin: 0 0 10px 0;
-    padding:20px;
-}
 
-.top-buttons button:hover {
-    background: #55da21;
 }
 
 /* Make top-buttons buttons ultra-compact */
@@ -323,7 +319,7 @@ p a:hover {
   display: inline-block;
 }
 .plain-link:hover {
-  background: #161780;
+
   color: white;
   text-decoration: underline;
 }
@@ -430,7 +426,7 @@ p a:hover {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    text-decoration: none;
+
 }
 .back-btn-abs {
     position: absolute;

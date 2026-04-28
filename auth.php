@@ -61,4 +61,4 @@ if ($action === 'login') {
         echo "❌ Registration failed: " . mysqli_error($conn);
     }
 }
-?>
+
