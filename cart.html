@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - PetShop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="cart-header">
+    <div class="cart-header-content">
+      <h1 class="cart-title"> Shopping Cart</h1>
+      <div class="cart-header-buttons">
+        <a href="product.php" class="back-btn">Continue Shopping</a>
+        <button class="logout-btn" onclick="logoutToLogin()">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-container">
+    <div class="cart-items" id="cart-items">
+      <!-- Cart items will be loaded here -->
+    </div>
+
+    <div class="cart-summary">
+      <h2 class="summary-title">Order Summary</h2>
+      <div class="summary-item">
+        <span>Subtotal:</span>
+        <span id="subtotal">$0.00</span>
+      </div>
+      <div class="summary-item">
+        <span>Shipping:</span>
+        <span>$5.00</span>
+      </div>
+      <div class="summary-item">
+        <span>Tax:</span>
+        <span id="tax">$0.00</span>
+      </div>
+      <div class="summary-item">
+        <span>Total:</span>
+        <span id="total">$0.00</span>
+      </div>
+      <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <div id="user-info"></div>
+
+  <script>
+    // Load cart data from server
+    function loadCart() {
+      fetch("get_cart.php")
+        .then(res => res.json())
+        .then(cartItems => {
+          const container = document.getElementById("cart-items");
+          
+          if (cartItems.length === 0) {
+            container.innerHTML = `
+              <div class="empty-cart">
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added any items to your cart yet.</p>
+                <a href="product.php" class="shop-now-btn">Start Shopping</a>
+              </div>
+            `;
+            updateSummary(0);
+            return;
+          }
+
+          let cartHTML = '';
+          let subtotal = 0;
+
+          cartItems.forEach(item => {
+            const itemTotal = Number(item.price) * item.quantity;
+            subtotal += itemTotal;
+
+            cartHTML += `
+              <div class="cart-item">
+                <img src="images/${item.image}" alt="${item.name}">
+                <div class="item-details">
+                  <h3>${item.name}</h3>
+                  <p class="item-price">$${Number(item.price).toFixed(2)} each</p>
+                </div>
+                <div class="quantity-controls">
+                  <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                  <span class="quantity-display">${item.quantity}</span>
+                  <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                </div>
+                <div>
+                  <p class="item-price">$${itemTotal.toFixed(2)}</p>
+                  <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+                </div>
+              </div>
+            `;
+          });
+
+          container.innerHTML = cartHTML;
+          updateSummary(subtotal);
+        })
+        .catch(error => {
+          console.error('Error loading cart:', error);
+          document.getElementById("cart-items").innerHTML = `
+            <div class="empty-cart">
+              <h2>Error loading cart</h2>
+              <p>Please try refreshing the page.</p>
+            </div>
+          `;
+        });
+    }
+
+    function updateSummary(subtotal) {
+      const tax = subtotal * 0.08; // 8% tax
+      const shipping = subtotal > 0 ? 5.00 : 0;
+      const total = subtotal + tax + shipping;
+
+      document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById("tax").textContent = `$${tax.toFixed(2)}`;
+      document.getElementById("total").textContent = `$${total.toFixed(2)}`;
+    }
+
+    function updateQuantity(productId, change) {
+      // This would need a backend endpoint to update quantity
+      // For now, we'll just reload the cart
+      loadCart();
+    }
+
+    function removeFromCart(productId) {
+      if (confirm('Are you sure you want to remove this item from your cart?')) {
+        fetch("remove_from_cart.php", {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ product_id: productId })
+        })
+        .then(res => res.json())
+        .then(data => {
+          loadCart(); // Reload cart after removal
+        })
+        .catch(error => {
+          console.error('Error removing item:', error);
+          alert('Error removing item from cart');
+        });
+      }
+    }
+
+    function checkout() {
+      window.location.href = 'checkout.php';
+    }
+
+    function logoutToLogin() {
+      // Optionally, you can clear session via logout.php, then redirect
+      window.location.href = 'auth.html';
+    }
+
+    // Load cart when page loads
+    loadCart();
+
+    // Show user info if logged in
+    fetch('get_user.php')
+      .then(res => res.json())
+      .then(data => {
+        if (data.logged_in) {
+          document.getElementById('user-info').innerHTML = `
+            <div class="user-info">
+              <img src="images/user-icon.png" alt="User" class="user-icon">
+              <span>${data.username}</span>
+            </div>
+          `;
+        }
+      });
+  </script>
+</body>
+</html> 

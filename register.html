@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - PetShop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-bg">
+        <div class="login-container">
+            <h2>Create a New Account - PetShop</h2>
+            <div id="register-error" class="register-error" style="display:none;"></div>
+            <form id="register-form" action="auth.php" method="POST">
+                <input type="hidden" name="action" value="register">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" required>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" required>
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" name="confirm_password" id="confirm_password" required>
+                <button type="submit">Register</button>
+            </form>
+            <p>Already have an account? <a href="login.html">Log in here</a></p>
+        </div>
+    </div>
+    <script>
+    // AJAX registration handler
+    document.getElementById('register-form').onsubmit = function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      fetch('auth.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.text())
+      .then(msg => {
+        if (msg.includes('✅')) {
+          // Registration successful, redirect to login
+          window.location.href = 'auth.html';
+        } else {
+          // Show error
+          const errDiv = document.getElementById('register-error');
+          errDiv.innerHTML = msg;
+          errDiv.style.display = 'block';
+        }
+      });
+    };
+    </script>
+</body>
+</html>

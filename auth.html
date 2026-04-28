@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login / Register - PetShop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="auth-bg">
+    <div class="auth-container">
+      <h2 id="form-title">Login to PetShop</h2>
+      <!-- Login Form -->
+      <form id="login-form" action="auth.php" method="POST">
+        <input type="hidden" name="action" value="login">
+        <label>Username or Email:</label>
+        <input type="text" name="username" required><br>
+        <label>Password:</label>
+        <input type="password" name="password" required><br>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    // No registration or toggle logic needed
+  </script>
+</body>
+</html>

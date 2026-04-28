@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - PetShop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="user-info"></div>
+    <button class="back-btn back-btn-abs" onclick="window.location.href='index.html'"> Back to Home</button>
+    
+    <div class="about-container">
+        <div class="about-header">
+            <h1>About PetShop</h1>
+            <p>Your trusted partner in pet care since 2024</p>
+        </div>
+        
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Our Story</h2>
+                <p>PetShop was founded with a simple mission: to provide the highest quality pet products and supplies to pet owners who want the best for their beloved companions. What started as a small local shop has grown into a trusted destination for all your pet care needs.</p>
+                
+                <p>We understand that pets are family members, and they deserve the best care possible. That's why we carefully select every product in our inventory, ensuring it meets our high standards for quality, safety, and value.</p>
+                
+                <h2>Our Mission</h2>
+                <p>To enhance the lives of pets and their owners by providing premium products, expert advice, and exceptional service. We believe that happy pets make happy homes, and we're committed to being your partner in pet care.</p>
+            </div>
+            
+            <div class="about-image">
+                <img src="images/petpicture.jpg" alt="Happy pets and owners">
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <h3>Quality Products</h3>
+                <p>We offer only the finest pet products from trusted brands, ensuring your pets get the best care possible.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Expert Advice</h3>
+                <p>Our team of pet care experts is always ready to help you make the best choices for your furry friends.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Convenient Shopping</h3>
+                <p>Shop online or visit our store - we make it easy to get everything your pets need in one place.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+    // Show user info if logged in
+    fetch('get_user.php')
+      .then(res => res.json())
+      .then(data => {
+        if (data.logged_in) {
+          document.getElementById('user-info').innerHTML = `
+            <div class="user-info">
+              <img src="images/user-icon.png" alt="User" class="user-icon">
+              <span>${data.username}</span>
+            </div>
+          `;
+        }
+      });
+    </script>
+</body>
+</html> 

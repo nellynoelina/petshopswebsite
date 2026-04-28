@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petshop Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="user-info"></div>
+    <!-- Header Section -->
+    <section class="header">
+        <nav>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                    <li><a href="cart.html">CART</a></li>
+                    <li><a href="login.html">LOGIN</a></li>
+                    <li><a href="logout.php">LOGOUT</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="header-social-icons">
+            <a href="https://facebook.com" target="_blank">
+                <img src="images/facebook.png" alt="Facebook">
+            </a>
+            <a href="https://instagram.com" target="_blank">
+                <img src="images/instagram.png" alt="Instagram">
+            </a>
+        </div>
+        <div class="text-box">
+            <h1>Welcome to PetShop</h1>
+            <p>Your one-stop shop for all your pet needs!</p>
+
+            <!-- View Products Button -->
+            
+            <button class="view-products-btn" onclick="window.location.href='product.php'">View Products</button>
+        </div>
+    </section>
+</body>
+<script>
+// Show user info if logged in
+fetch('get_user.php')
+  .then(res => res.json())
+  .then(data => {
+    if (data.logged_in) {
+      document.getElementById('user-info').innerHTML = `
+        <div class="user-info">
+          <img src="images/user-icon.png" alt="User" class="user-icon">
+          <span>${data.username}</span>
+        </div>
+      `;
+    }
+  });
+</script>
+</html>
